@@ -21,7 +21,8 @@
 exports.index = function(req, res) {
 	var SiteEnvironment = require('../settings/environment.js');
 	res.render('pages/index', {
-		title : SiteEnvironment.websiteConfig.websiteName
+		title : SiteEnvironment.websiteConfig.websiteName,
+		websiteName: SiteEnvironment.websiteConfig.websiteName
 	});
 };
 
@@ -31,6 +32,7 @@ exports.index = function(req, res) {
 exports.about = function(req, res) {
 	var SiteEnvironment = require('../settings/environment.js');
 	res.render('pages/about', {
-		title : SiteEnvironment.websiteConfig.websiteName
+		title : SiteEnvironment.websiteConfig.websiteName,
+		websiteName: SiteEnvironment.websiteConfig.websiteName
 	});
 };

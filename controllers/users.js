@@ -24,6 +24,7 @@ exports.myaccount = function(req, res) {
 	    if( ! err ) {
 			res.render('pages/users/account', {
 				title : SiteEnvironment.websiteConfig.websiteName + ' [Manage Account]',
+				websiteName: SiteEnvironment.websiteConfig.websiteName,
 				username: req.session.user.username,
 				fullname: result.fullname
 			});		    
@@ -38,6 +39,7 @@ exports.login = function(req, res) {
 	var SiteEnvironment = require('../settings/environment.js');
 	res.render('pages/users/login', {
 		title : SiteEnvironment.websiteConfig.websiteName + ' [login]',
+		websiteName: SiteEnvironment.websiteConfig.websiteName
 	});
 };
 
@@ -93,7 +95,8 @@ exports.logout = function(req, res) {
 exports.forgot = function(req, res) {
 	var SiteEnvironment = require('../settings/environment.js');
 	res.render('pages/users/forgot', {
-		title : SiteEnvironment.websiteConfig.websiteName + ' [Forgot Login]'
+		title : SiteEnvironment.websiteConfig.websiteName + ' [Forgot Login]',
+		websiteName: SiteEnvironment.websiteConfig.websiteName
 	});
 };
 
@@ -202,7 +205,8 @@ exports.update = function(req, res) {
 exports.signup = function(req, res) {
 	var SiteEnvironment = require('../settings/environment.js');
 	res.render('pages/users/signup', {
-		title : SiteEnvironment.websiteConfig.websiteName + ' [Join Us!]'
+		title : SiteEnvironment.websiteConfig.websiteName + ' [Join Us!]',
+		websiteName: SiteEnvironment.websiteConfig.websiteName
 	});
 };
 
@@ -227,12 +231,14 @@ exports.create = function(req, res) {
 	    if( ! err ) {
 	    	res.render('pages/users/create', {
 	    		title : SiteEnvironment.websiteConfig.websiteName + ' [Join Us!]',
+	    		websiteName: SiteEnvironment.websiteConfig.websiteName,
 	    		status: 'User account has been created.'
 	    	});
 	        return true;
 	    } else {
 	    	res.render('pages/users/create', {
 	    		title : SiteEnvironment.websiteConfig.websiteName + ' [Join Us!]',
+	    		websiteName: SiteEnvironment.websiteConfig.websiteName,
 	    		status: 'An error has occurred, your user account could not be created.'
 	    	});
 	    	return false;
