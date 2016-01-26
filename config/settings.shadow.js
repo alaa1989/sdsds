@@ -6,7 +6,7 @@
  * 				Never check in your own 'settings.js' to GIT, if it's a public repo and you'll give away your passwords :) 
  */
 
-/** postgres DB */
+// postgres DB
 exports.DBConfig = {
 	db : {
 		host : "localhost",
@@ -16,14 +16,14 @@ exports.DBConfig = {
 	}
 };
 
-/** SMTP config, send admin emails to users */
+// SMTP config, send admin emails to users
 exports.SMTPConfig = {
 	mailHost : 'mail.mywebsite.com.com',
 	fromAddress : 'admin@mywebsite.com',
 	sendMailPassword : 'mail host password here'
 };
 
-/** cookie session keys */
+// cookie session keys
 exports.sessionKeys = {
 		cookieParserKey : 'secret string value here',
 		sessionKey: 'another secret string value here'

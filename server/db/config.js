@@ -15,24 +15,8 @@
  * limitations under the License.
  */
  
-/** 
- * show the main home page 
- */
-exports.index = function(req, res) {
-	var SiteEnvironment = require('../settings/environment.js');
-	res.render('pages/index', {
-		title : SiteEnvironment.websiteConfig.websiteName,
-		websiteName: SiteEnvironment.websiteConfig.websiteName
-	});
-};
-
-/** 
- * show the about page 
- */
-exports.about = function(req, res) {
-	var SiteEnvironment = require('../settings/environment.js');
-	res.render('pages/about', {
-		title : SiteEnvironment.websiteConfig.websiteName,
-		websiteName: SiteEnvironment.websiteConfig.websiteName
-	});
-};
+// DB config and utilities via wrapper 
+var AppSettings = require('../../config/settings.js');
+var DBWrapper = require('node-dbi').DBWrapper;
+var dbConnectionConfig = { host:AppSettings.DBConfig.db.host, user:AppSettings.DBConfig.db.username, password:AppSettings.DBConfig.db.password, database:AppSettings.DBConfig.db.database };
+exports.dbWrapper = new DBWrapper('pg', dbConnectionConfig);
