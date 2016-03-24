@@ -15,9 +15,9 @@
 					<input id="fullname" type="text" name="fullname" ng-model="fullname" placeholder="Full Name" required>
 					<span class="error" ng-show="showValidationMessages && updateAccountForm.fullname.$error.required">Please provide your full name</span>
 					<input id="password" type="password" name="password" ng-model="password" placeholder="Password" ng-minlength="5" required>
-					<span class="error" ng-show="showValidationMessages && (updateAccountForm.password.$error.required || updateAccountForm.password.$error.minlength)">Enter a password of at least 5 characters</span>
+					<span class="error"  ng-show="showValidationMessages && (updateAccountForm.password.$error.required || updateAccountForm.password.$error.minlength)">Enter a password of at least 5 characters</span>
 					<input id="confirm" type="password" name="confirm" ng-model="confirm" placeholder="Confirm Password" ng-minlength="5" required>
-					<span class="error" ng-show="showValidationMessages && (updateAccountForm.confirm.$error.required || !passwordMatch)">Enter a matching password</span>
+					<span class="error"  ng-show="showValidationMessages && (updateAccountForm.confirm.$error.required || !passwordMatch)">Enter a matching password</span>
 				</fieldset>
 				<div class="row">
 					<div class="large-6 large-centered columns">

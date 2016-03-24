@@ -1,9 +1,9 @@
-/*
- * SHADOW FILE 
+/**
+ * SHADOW FILE
  * 		(please create your own personal 'settings.js' file with your own values from the template below)
- * 
- * 		WARNING: 
- * 				Never check in your own 'settings.js' to GIT, if it's a public repo and you'll give away your passwords :) 
+ *
+ * 		WARNING:
+ * 				Never check in your own 'settings.js' to GIT, if it's a public repo and you'll give away your passwords :)
  */
 
 // postgres DB
@@ -25,6 +25,6 @@ exports.SMTPConfig = {
 
 // cookie session keys
 exports.sessionKeys = {
-		cookieParserKey : 'secret string value here',
-		sessionKey: 'another secret string value here'
+	cookieParserKey : 'secret string value here',
+	sessionKey: 'another secret string value here'
 };

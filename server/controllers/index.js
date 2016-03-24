@@ -1,28 +1,18 @@
 /**
- * NodeJS Web Application
+ * Home Page Controller
+ *
+ * @author khinds
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright Kevin Hinds @ KevinHinds.com
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *	http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
  
 /** 
  * show the main home page 
  */
 exports.index = function(req, res) {
-	var SiteEnvironment = require('../../config/environment.js');
 	res.render('pages/index', {
-		title : SiteEnvironment.websiteConfig.websiteName,
-		websiteName: SiteEnvironment.websiteConfig.websiteName
+		title : req.siteEnvironment.websiteConfig.websiteName,
+		websiteName: req.siteEnvironment.websiteConfig.websiteName
 	});
 };
 
@@ -30,9 +20,8 @@ exports.index = function(req, res) {
  * show the about page 
  */
 exports.about = function(req, res) {
-	var SiteEnvironment = require('../../config/environment.js');
 	res.render('pages/about', {
-		title : SiteEnvironment.websiteConfig.websiteName,
-		websiteName: SiteEnvironment.websiteConfig.websiteName
+		title : req.siteEnvironment.websiteConfig.websiteName,
+		websiteName: req.siteEnvironment.websiteConfig.websiteName
 	});
 };

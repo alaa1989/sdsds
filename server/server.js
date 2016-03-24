@@ -1,21 +1,12 @@
 /**
  * NodeJS Web Application
+ *
+ * @author khinds
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright Kevin Hinds @ KevinHinds.com
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *	http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 
-// dependancies
+// dependencies
 var express = require('express');
 var path = require('path');
 var favicon = require('static-favicon');
@@ -36,80 +27,120 @@ server.use(logger('dev'));
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded());
 server.use(cookieParser());
-server.use('/ui/images',express.static(path.join(__dirname, '../ui/images')));
-server.use('/ui/javascripts',express.static(path.join(__dirname, '../ui/javascripts')));
-server.use('/ui/stylesheets',express.static(path.join(__dirname, '../ui/stylesheets')));
+server.use('/ui/img',express.static(path.join(__dirname, '../ui/img')));
+server.use('/ui/js',express.static(path.join(__dirname, '../ui/js')));
+server.use('/ui/css',express.static(path.join(__dirname, '../ui/css')));
 
-// cookie parsing sessions, create with application settings keys
-var AppSettings = require('../config/settings.js');
-server.use(cookieParser(AppSettings.sessionKeys.cookieParserKey));
-server.use(session({secret: AppSettings.sessionKeys.sessionKey}));
+/*
+|--------------------------------------------------------------------------
+| Includes / Globals
+|--------------------------------------------------------------------------
+|
+| Global settings, Database connectivity, helper utilties
+*/
+
+// global promises
+var promise = require('promise');
+server.use(function(req,res,next){
+    req.promise = promise;
+    next();
+});
+
+// setup global app settings, cookie parsing sessions, create with application settings keys
+var appSettings = require('../config/settings');
+server.use(cookieParser(appSettings.sessionKeys.cookieParserKey));
+server.use(session({secret: appSettings.sessionKeys.sessionKey}));
+server.use(function(req,res,next){
+    req.appSettings = appSettings;
+    next();
+});
+
+// global environment settings
+var siteEnvironment = require('../config/environment');
+server.use(function(req,res,next){
+    req.siteEnvironment = siteEnvironment;
+    next();
+});
 
 // make our db and application models and other global libraries accessible to our router
 var dbi = require('./db/config');
 dbi.dbWrapper.connect();
 server.use(function(req,res,next){
     req.db = dbi.dbWrapper;
-    req.db.DBExpr = require('node-dbi').DBExpr; 
+    req.db.DBExpr = require('node-dbi').DBExpr;
     req.bcrypt = bcrypt;
     next();
 });
 
-// generic require logged in user checking for any routes that may require it 
-function requireLogin (req, res, next) {
-  if (!req.session.user) {
-    res.redirect('/user/login');
-  } else {
+// include helpers
+var variableHelper = require('./helpers/variables');
+var emailHelper = require('./helpers/email');
+server.use(function(req,res,next){
+    req.variableHelper = variableHelper;
+    req.emailHelper = emailHelper;
     next();
-  }
-};
-
-// check user logged in
-server.use(function (req, res, next) {
-	res.locals.loggedIn =false;
-	  if (req.session.user) {
-		  res.locals.loggedIn =true;
-	  }
-	next();
 });
 
-/*************************************************************** 
- * MAP URLS TO ROUTES
- ***************************************************************/
-var site = require('./controllers/index');
-var users = require('./controllers/users');
+// include email service
+var emailService = require("../node_modules/emailjs/email");
+server.use(function(req,res,next){
+    req.emailService = emailService;
+    next();
+});
 
-/** 
- * HOMEPAGE 
- */
+/*
+|--------------------------------------------------------------------------
+| Models
+|--------------------------------------------------------------------------
+|
+| Encapsulate system nouns
+*/
+var userModel = require('./models/users');
+server.use(function(req,res,next){
+    req.userModel = userModel;
+    
+    // response isLoggedIn global value
+    res.locals.loggedIn =false;
+    if (req.session.user) {
+	  res.locals.loggedIn =true;
+    }
+    next();
+});
+
+/*
+|--------------------------------------------------------------------------
+| Routing
+|--------------------------------------------------------------------------
+|
+| Public URIs on the system
+*/
+
+// homepage
+var site = require('./controllers/index');
 server.get('/', site.index);
 server.get('/about', site.about);
 
-/**
- * USERS 
- */
-
-// login / logout
+// users
+var users = require('./controllers/users');
 server.get('/user/login', users.login);
 server.post('/user/checkLogin', users.checkLogin);
 server.get('/user/logout', users.logout);
-
-// edit account
-server.get('/user/account', requireLogin, users.myaccount);
-server.post('/user/update', requireLogin, users.update);
-
-// create users
+server.get('/user/isLoggedIn', users.isLoggedIn);
+server.get('/user/account', users.requireLogin, users.myaccount);
+server.post('/user/update', users.requireLogin, users.update);
 server.get('/user/signup', users.signup);
 server.post('/user/create', users.create);
 server.post('/user/checkExistingValue', users.checkExistingUserValues);
-
-// forgot login
 server.get('/user/forgot', users.forgot);
 server.post('/user/checkForgot', users.checkForgot);
 
-/**************************************************************
- *  ERROR HANDLERS
- **************************************************************/
+/*
+|--------------------------------------------------------------------------
+| Error Handling
+|--------------------------------------------------------------------------
+|
+| HTTP 404, development settings for stack traces
+*/
 
 // catch 404 and forwarding to error handler
 server.use(function(req, res, next) {
@@ -140,6 +171,12 @@ if (server.get('env') === 'development') {
     });
 }
 
-// export the server
+/*
+|--------------------------------------------------------------------------
+| Export & Run the Application
+|--------------------------------------------------------------------------
+|
+| HTTP 404, development settings for stack traces
+*/
 module.exports = server;
 console.log('NodeJS application started...');

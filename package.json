@@ -1,12 +1,13 @@
 {
-  "name": "mywebsite.com",
-  "version": "0.0.1",
+  "name": "LoginSiteTemplate-Node-Angular-Postgres-FoundationCSS",
+  "version": "0.1.1",
+  "description": "Login Site Template: NodeJS / PostGres (server) & AngularJS / Foundation (browser)",
   "private": true,
   "scripts": {
     "start": "node ./server/bin/www"
   },
   "dependencies": {
-    "bcrypt": "0.8.1",
+    "bcrypt": "0.8.5",
     "body-parser": "1.0.2",
     "cookie-parser": "1.0.1",
     "cookie-session": "1.1.0",
@@ -17,9 +18,38 @@
     "grunt": "^0.4.5",
     "grunt-serve": "^0.1.6",
     "morgan": "1.0.1",
+    "ms": "^0.7.1",
     "node-dbi": "0.7.1",
     "node-uuid": "1.4.3",
     "pg": "4.2.0",
-    "static-favicon": "1.0.2"
-  }
+    "static-favicon": "1.0.2",
+    "promise": "~7.1.1",
+    "angular-foundation": "~0.8.0",
+    "angular": "~1.4.9",
+    "foundation": "~4.2.1-1",
+    "font-awesome": "~4.5.0",
+    "fastclick": "~1.0.6",
+    "angular-route": "~1.4.9"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-nodeunit": "~0.4.1",
+    "grunt-contrib-uglify": "~0.5.0",
+    "grunt-contrib-cssmin": "~0.14.0",
+    "grunt-contrib-sass": "~0.9.2",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-contrib-concat": "~0.5.1"
+  },
+  "keywords": [
+	"HTML5",
+    "Boilerplate",
+    "AngularJS",
+    "FoundationCSS",
+    "NodeJS",
+    "ExpressJS",
+    "PostGres"
+  ],
+  "license": "GNU GPLv3",
+  "author": "Kevin Hinds <kevin@kevinhinds.com>"
 }
