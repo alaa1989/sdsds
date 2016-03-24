@@ -17,5 +17,5 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE users
-  OWNER TO shamanic_user;
-GRANT ALL ON TABLE users TO shamanic_user;
+  OWNER TO postgres;
+GRANT ALL ON TABLE users TO postgres;
